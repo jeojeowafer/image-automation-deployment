@@ -166,8 +166,9 @@ def main() -> int:
                 "Check Git LFS access and download."
             )
 
-    deploy_root = Path(args.deploy_to).expanduser().resolve()
-    release_dir = deploy_root / customer / version
+    #deploy_root = Path(args.deploy_to).expanduser().resolve()
+    #release_dir = deploy_root / customer / version
+    release_dir = Path(args.deploy_to).expanduser().resolve()
 
     if release_dir.exists():
         raise FileExistsError(
@@ -183,8 +184,16 @@ def main() -> int:
     )
 
     try:
-        (staging / "app").mkdir()
-        shutil.copy2(exe, staging / "app" / "main.exe")
+        # (staging / "app").mkdir()
+        # shutil.copy2(exe, staging / "app" / "main.exe")
+        # shutil.copytree(
+        #     customer_dir,
+        #     staging / "configs" / customer,
+        # )
+        # Put the executable at the deployment root.
+        shutil.copy2(exe, staging / "main.exe")
+
+        # Keep the customer folder inside configs/.
         shutil.copytree(
             customer_dir,
             staging / "configs" / customer,
@@ -214,7 +223,8 @@ def main() -> int:
                 previous_tag,
             )
 
-            is_executable = relative == "app/main.exe"
+            #is_executable = relative == "app/main.exe"
+            is_executable = relative == "main.exe"
             is_mask = (
                 relative.startswith(f"configs/{customer}/Mask/")
             )
@@ -258,7 +268,7 @@ def main() -> int:
 
         exe_entry = next(
             item for item in all_files
-            if item["path"] == "app/main.exe"
+            if item["path"] == "main.exe"
         )
 
         manifest = {
@@ -273,7 +283,7 @@ def main() -> int:
                 "git_commit": commit,
             },
             "application": {
-                "file": "app/main.exe",
+                "file": "main.exe",
                 "sha256": exe_entry["sha256"],
                 "git_blob": exe_entry["git_blob"],
                 "last_changed_commit": exe_entry[
