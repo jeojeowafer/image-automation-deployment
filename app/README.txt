@@ -1,0 +1,1 @@
+main.exe "C:\Users\ISDIp\ISDI Dropbox (Old)\ISDI Dropbox\ISDI Dropbox\Jalpa Patel\Aspect Temp\2026\Poseidon_1412\2026-06\2026-06-01 LOT_TH01754\TH01754_W_01_D1" --config-dir "V:\Python Scripts\ProductionScript\QAD Map\configs\isdi-release"  --id-cls "WAFER"
