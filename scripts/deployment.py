@@ -208,7 +208,8 @@ def main() -> int:
                 continue
 
             relative = path.relative_to(staging).as_posix()
-            source_relative = relative
+            # The executable is deployed as main.exe, but stored in Git as app/main.exe.
+            source_relative = "app/main.exe" if relative == "main.exe" else relative
 
             if relative.startswith("configs/"):
                 source = repo / Path(relative)
@@ -217,10 +218,10 @@ def main() -> int:
 
             # Only source files committed at the release commit are valid.
             history = file_git_history(
-                repo,
-                commit,
-                source_relative,
-                previous_tag,
+            repo,
+            commit,
+            source_relative,
+            previous_tag,
             )
 
             #is_executable = relative == "app/main.exe"
